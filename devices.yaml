@@ -1,9 +1,6 @@
 ﻿appium:
- - devices: JTJ4C16331013562
+ - devices: 3d6e4e03
    port: 4723
-   config: node D:\app\Appium\node_modules\appium\bin\appium.js  -p 4723 -bp 4733 -U JTJ4C16331013562
+   config: appium -p 4723 -bp 4733 --udid 3d6e4e03
    platformName: android
- - devices: DU2TAN15AJ049163
-   port: 4724
-   config: node D:\app\Appium\node_modules\appium\bin\appium.js  -p 4724 -bp 4734 -U DU2TAN15AJ049163
-   platformName: android
+

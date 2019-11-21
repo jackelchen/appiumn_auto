@@ -9,15 +9,17 @@ from common import testLogScreen
 from common import reportPhone as rp
 from testBLL import phoneBase as ba
 import os
-from common import  operateFile
+from common import operateFile
 from common import basePickle
 from common import baseRandom
+
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
-IS_CRASH = 1 # 闪退了
-NO_ELEMENT = 2 # 找不到元素
-NORMAL = 0 # 正常
+IS_CRASH = 1  # 闪退了
+NO_ELEMENT = 2  # 找不到元素
+NORMAL = 0  # 正常
+
 
 class AppCase():
 
@@ -46,35 +48,36 @@ class AppCase():
         print(self.driver)
         self.package = kwargs["package"]
         self.devices = kwargs["devices"]
+
     def get_phone_name(self):
         get_phone = ba.get_phone_info(devices=self.devices)
-        phone_name = get_phone["brand"] + "_" +get_phone["model"] + "_"+"android" +"_"+ get_phone["release"]
-        return phone_name, get_phone["device"] # 这里的device就是设备名
+        phone_name = get_phone["brand"] + "_" + get_phone["model"] + "_" + "android" + "_" + get_phone["release"]
+        return phone_name, get_phone["device"]  # 这里的device就是设备名
 
     def getModeList(self, f):
         bs = []
         gh = operateYaml.getYam(f)
         for i in range(len(gh)):
             if i == 0:
-                  #用例id
+                # 用例id
                 self.GetAppCaseInfo.test_id = gh[i].get("test_id", "false")
-                 # 用例介绍
+                # 用例介绍
                 self.GetAppCaseInfo.test_intr = gh[i].get("test_intr", "false")
             # bt = self.GetAppCase
             self.GetAppCase.element_info = gh[i].get("element_info", "false")
 
             self.GetAppCase.log = r"d:/" + self.get_phone_name()[0]
 
-          # 操作类型
+            # 操作类型
             self.GetAppCase.operate_type = gh[i].get("operate_type", "false")
             # 输入文字
             self.GetAppCase.name = gh[i].get("name", "false")
 
             self.GetAppCase.index = gh[i].get("index", "false")
 
-            self.GetAppCase.text = gh[i].get("text", "false") # 对应by_link_text
+            self.GetAppCase.text = gh[i].get("text", "false")  # 对应by_link_text
 
-           # 验证类型
+            # 验证类型
             self.GetAppCase.find_type = gh[i].get("find_type", "false")
 
             self.GetAppCase.time = gh[i].get("time", 0)
@@ -95,8 +98,8 @@ class AppCase():
         bc = self.getModeList(f)
         go = bo.OperateElement(driver=self.driver)
         ch_check = bc[-1]
-        _d_report_common = {"test_success": 0, "test_failed": 0, "test_sum": 0} #case的运行次数和性能
-        is_crash = NORMAL # 0表示没有闪退，1标识有闪退，2标识没有闪退，找不到页面元素
+        _d_report_common = {"test_success": 0, "test_failed": 0, "test_sum": 0}  # case的运行次数和性能
+        is_crash = NORMAL  # 0表示没有闪退，1标识有闪退，2标识没有闪退，找不到页面元素
         for k in bc:
             if k["operate_type"] != "false":
                 k["devices"] = self.devices
@@ -118,8 +121,7 @@ class AppCase():
         _d_report_common["test_sum"] += 1
         self.report(go, ch_check, _d_report_common, kwargs, is_crash=is_crash)
 
-
-    def report(self,go, ch_check, _d_report_common, kwargs, is_crash):
+    def report(self, go, ch_check, _d_report_common, kwargs, is_crash):
 
         self.GetAppCaseInfo.test_men_max = rp.phone_max_use_raw(self.men)  # 内存最大使用情况
         avg_men = ba.get_avg_raw(self.men, self.devices)  # 获取每次占用内存平均值
@@ -135,7 +137,7 @@ class AppCase():
         d_report["phone_pix"] = ba.get_app_pix(self.devices)
         d_report["phone_cpu"] = ba.get_cpu_kel(self.devices)
         d_report["phone_raw"] = rp.phone_raw(raw / 1024)
-        if is_crash == NORMAL: # 正常情况
+        if is_crash == NORMAL:  # 正常情况
             if go.findElement(ch_check):
                 _d_report_common["test_success"] += 1
                 self.GetAppCaseInfo.test_result = "成功"
@@ -144,11 +146,12 @@ class AppCase():
                 _d_report_common["test_failed"] += 1
                 test_reason = "检查不到元素"
                 self.write_report_collect(_d_report_common, f=common.REPORT_COLLECT_PATH)  # 写入case运行的总个数
-                ng_img = testLogScreen.screenshotNG(caseName=kwargs["test_name"], driver=self.driver, resultPath=common.SCREEN_IMG_PATH)
+                ng_img = testLogScreen.screenshotNG(caseName=kwargs["test_name"], driver=self.driver,
+                                                    resultPath=common.SCREEN_IMG_PATH)
                 self.GetAppCaseInfo.test_image = ng_img
                 self.GetAppCaseInfo.test_result = "失败"
                 self.GetAppCaseInfo.test_reason = test_reason
-        elif is_crash == IS_CRASH: #如果闪退了
+        elif is_crash == IS_CRASH:  # 如果闪退了
             _d_report_common["test_failed"] += 1
             self.write_report_collect(_d_report_common, f=common.REPORT_COLLECT_PATH)  # 写入case运行的总个数
             ng_img = testLogScreen.screenshotNG(caseName=kwargs["test_name"], driver=self.driver,
@@ -156,8 +159,8 @@ class AppCase():
             self.GetAppCaseInfo.test_image = ng_img
             self.GetAppCaseInfo.test_result = "失败"
             self.GetAppCaseInfo.test_reason = "崩溃了"
-            self.GetAppCaseInfo.test_log = self.pull_crash_log() #记录本地日志
-        elif is_crash == NO_ELEMENT: #找不到元素
+            self.GetAppCaseInfo.test_log = self.pull_crash_log()  # 记录本地日志
+        elif is_crash == NO_ELEMENT:  # 找不到元素
             _d_report_common["test_failed"] += 1
             self.write_report_collect(_d_report_common, f=common.REPORT_COLLECT_PATH)  # 写入case运行的总个数
             self.GetAppCaseInfo.test_result = "失败"
@@ -171,7 +174,7 @@ class AppCase():
         self.write_detail(info_case, f=common.REPORT_INFO_PATH, key="info")  # 写入所有的case包括，init,info中的excel中的case情况
         if kwargs["isLast"] == "1":
             # 记录每个设备的case运行情况
-            if is_crash == NORMAL: #如果没有闪退了
+            if is_crash == NORMAL:  # 如果没有闪退了
                 d_report["phone_avg_use_cpu"] = self.GetAppCaseInfo.test_cpu_avg
                 d_report["phone_avg_max_use_cpu"] = self.GetAppCaseInfo.test_cpu_max
                 d_report["phone_avg_use_raw"] = self.GetAppCaseInfo.test_men_avg
@@ -187,9 +190,10 @@ class AppCase():
                 d_report["fps_max"] = "0"
             # 最后case要写最下面的统计步骤
             self.write_detail(d_report, f=common.REPORT_INIT, key="init")
+
     def read_detail_report(self, f=""):
-       op = operateFile.OperateFile(f, "r")
-       return op.read_txt_row()
+        op = operateFile.OperateFile(f, "r")
+        return op.read_txt_row()
 
     # 写入统计case的info,init情况
     def write_detail(self, json, f="", key="info"):
@@ -213,6 +217,7 @@ class AppCase():
         op = operateFile.OperateFile(f, "w")
         op.write_txt(str(_result))
         print(_result)
+
     # 写入统计总的case的运行次数
     def write_report_collect(self, json, f=""):
         _read_json_temp = self.read_detail_report(f)
@@ -236,10 +241,10 @@ class AppCase():
         _read_crash = basePickle.read_pickle(common.CRASH_LOG_PATH)
         if len(_read_crash) > 0:
             for i in range(len(_read_crash)):
-                    if _read_crash[i]["devices"] == self.get_phone_name()[1]: #如果android 传过来的device和现在测试的decvice相匹配
-                        log = _read_crash[i]["log"]
-                        rand_log = baseRandom.get_ran_dom()+".log" # 随机的log文件
-                        push_log = common.APACHE_PATH+rand_log # 存到apache的路径里面
-                        os.system("adb -s "+ self.devices+" pull "+log+" " +push_log)
-                        return common.PROTOCOL + common.HOST +"/"+common.APACHE_PATH+rand_log
+                if _read_crash[i]["devices"] == self.get_phone_name()[1]:  # 如果android 传过来的device和现在测试的decvice相匹配
+                    log = _read_crash[i]["log"]
+                    rand_log = baseRandom.get_ran_dom() + ".log"  # 随机的log文件
+                    push_log = common.APACHE_PATH + rand_log  # 存到apache的路径里面
+                    os.system("adb -s " + self.devices + " pull " + log + " " + push_log)
+                    return common.PROTOCOL + common.HOST + "/" + common.APACHE_PATH + rand_log
         return log

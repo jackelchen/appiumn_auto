@@ -1,7 +1,9 @@
 __author__ = 'shikun'
 import os
+
+
 class OperateFile:
-    #method(r,w,a)
+    # method(r,w,a)
     def __init__(self, file, method='w+'):
         self.file = file
         self.method = method
@@ -28,6 +30,7 @@ class OperateFile:
             for i in file_list:
                 print(i.strip("\n"))
             self.fileHandle.close()
+
     def check_file(self):
         if not os.path.isfile(self.file):
             # print('文件不存在' + self.file)
@@ -44,10 +47,11 @@ class OperateFile:
             print("创建文件成功")
         else:
             print("文件已经存在")
+
     def remove_file(self):
         if os.path.isfile(self.file):
             os.remove(self.file)
-            print("删除文件成功")
+            print("删除文件成功" + str(self.file))
         else:
             print("文件不存在")
 # if __name__ == '__main__':

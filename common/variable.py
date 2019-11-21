@@ -1,4 +1,6 @@
 __author__ = 'shikun'
+
+
 # 查找元素的方式
 class GetVariable(object):
     NAME = "name"
@@ -9,7 +11,7 @@ class GetVariable(object):
     find_elements_by_id = "by_ids"
     find_element_by_name = "by_name"
     find_elements_by_name = "by_names"
-    find_element_by_link_text ="by_link_text"
+    find_element_by_link_text = "by_link_text"
     find_elements_by_link_text = "by_link_texts"
     find_element_by_xpath = "by_xpath"
     find_elements_by_xpath = "by_xpaths"
@@ -34,21 +36,19 @@ class GetVariable(object):
     FIND_STR = "find_str"
     WAIT_TIME = 5
 
-    #selenium
-    SEND_CODE = "send_code" # 输入验证码
+    # selenium
+    SEND_CODE = "send_code"  # 输入验证码
 
-    #本地存储记录所有的case情况的路径
-    REPORT_INFO_PATH = "d:/info.txt"
-    REPORT_INIT = "d:/init.txt"
-    REPORT_COLLECT_PATH = "d:/collect.txt"
-    CRASH_LOG_PATH = "d:/crash.txt" # 存放crash的json文件名
-    #my server
-    HOST = '192.168.1.38'
+    # 本地存储记录所有的case情况的路径
+    REPORT_INFO_PATH = "d:/log/info.txt"
+    REPORT_INIT = "d:/log/init.txt"
+    REPORT_COLLECT_PATH = "d:/log/collect.txt"
+    CRASH_LOG_PATH = "d:/log/crash.txt"  # 存放crash的json文件名
+    # my server
+    HOST = '192.168.1.224'
     PORT = 8088
 
-    PROTOCOL = "http://" #协议
-    APACHE_PATH = "D:/app/Apache2.2/htdocs/appium/log/" #apapche器的地址，开发可以在这个上面下载异常日志
+    PROTOCOL = "http://"  # 协议
+    APACHE_PATH = "C:/Apache24/htdocs/appium/log/"  # apapche器的地址，开发可以在这个上面下载异常日志
 
-    SCREEN_IMG_PATH = "D:/app/Apache2.2/htdocs/appium/img/" # 截图地址
-
-
+    SCREEN_IMG_PATH = "C:/Apache24/htdocs/appium/img/"  # 截图地址

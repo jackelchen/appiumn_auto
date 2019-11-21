@@ -6,8 +6,7 @@ from common.variable import GetVariable as common
 import os
 from selenium import webdriver as web
 from seleniumrequests import Chrome
-from testBLL import  apkBase
-
+from testBLL import apkBase
 
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
@@ -26,14 +25,16 @@ def appium_testcase(l_devices):
     desired_caps['appActivity'] = apk_base.get_apk_activity()
     desired_caps['udid'] = l_devices["deviceName"]
     # desired_caps['app'] = PATH( '../img/t.apk')
-    desired_caps["unicodeKeyboard"] = "True"
-    desired_caps["resetKeyboard"] = "True"
+    # desired_caps["unicodeKeyboard"] = "True"
+    # desired_caps["resetKeyboard"] = "True"
     common.PACKAGE = apk_base.get_apk_pkg()
     remote = "http://127.0.0.1:" + str(l_devices["port"]) + "/wd/hub"
     driver = webdriver.Remote(remote, desired_caps)
     # common.DRIVER = driver
     # common.FLAG = False
     return driver
+
+
 def selenium_testcase(get_devices):
     chromedriver = "C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe"
     os.environ["webdriver.chrome.driver"] = chromedriver
@@ -41,8 +42,10 @@ def selenium_testcase(get_devices):
     # driver = web.PhantomJS(executable_path=phantomjs_path, service_log_path=os.path.devnull)
     common.DRIVER = driver
     common.FLAG = False
-    driver.maximize_window()  #将浏览器最大化
+    driver.maximize_window()  # 将浏览器最大化
     driver.get(get_devices.open_url)
+
+
 class TestInterfaceCase(unittest.TestCase):
     def __init__(self, methodName='runTest', l_devices=None):
         super(TestInterfaceCase, self).__init__(methodName)
@@ -61,19 +64,23 @@ class TestInterfaceCase(unittest.TestCase):
         #     selenium_testcase(ga)
         #     # driver.get("http://www.baidu.com")
         #     # data = driver.title
-            pass
+        pass
+
     def setUp(self):
         if self.l_devices["platformName"] == common.ANDROID:
             self.driver = appium_testcase(self.l_devices)
+
     def tearDown(self):
         # self.driver.close_app()
         # self.driver.quit()
         pass
+
     @staticmethod
     def tearDownClass():
         # driver.close_app()
         # driver.quit()
         print('tearDownClass')
+
     @staticmethod
     def parametrize(testcase_klass, l_devices=None):
         testloader = unittest.TestLoader()
@@ -82,4 +89,3 @@ class TestInterfaceCase(unittest.TestCase):
         for name in testnames:
             suite.addTest(testcase_klass(name, l_devices=l_devices[0]))
         return suite
-

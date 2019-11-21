@@ -2,6 +2,7 @@ __author__ = 'shikun'
 
 from testDAL import apkBase
 
+
 class apkInfo():
     def __init__(self, apkpath):
         self.apkpath = apkpath

@@ -6,12 +6,13 @@ import os
 from time import sleep
 import threading
 
+
 class Log:
 
     def __init__(self):
 
         global logger, resultPath, logPath
-        resultPath ="d:\\appium"
+        resultPath = "d:\\appium"
         logPath = os.path.join(resultPath, (time.strftime('%Y%m%d%H%M%S', time.localtime())))
         if os.path.exists(logPath) == False:
             os.makedirs(logPath)
@@ -19,9 +20,9 @@ class Log:
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
 
-        #create handler,write log
-        fh = logging.FileHandler(os.path.join(logPath, "outPut.log" ))
-        #Define the output format of formatter handler
+        # create handler,write log
+        fh = logging.FileHandler(os.path.join(logPath, "outPut.log"))
+        # Define the output format of formatter handler
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         fh.setFormatter(formatter)
 
@@ -39,8 +40,8 @@ class Log:
         :return:
         """
 
-        startLine = "----  " + caseNo + "   " + "START" + "   " +\
-        "  ----"
+        startLine = "----  " + caseNo + "   " + "START" + "   " + \
+                    "  ----"
         self.logger.info(startLine)
 
     def buildEndLine(self, caseNo):
@@ -48,8 +49,8 @@ class Log:
         :param caseNo:
         :return:
         """
-        endLine = "----  " + caseNo + "   " + "END" + "   " +\
-        "  ----"
+        endLine = "----  " + caseNo + "   " + "END" + "   " + \
+                  "  ----"
         self.logger.info(endLine)
         self.checkNo = 0
 
@@ -61,18 +62,18 @@ class Log:
         reportPath = os.path.join(logPath, "report.txt")
         flogging = open(reportPath, "a")
         try:
-            flogging.write(result+"\n")
+            flogging.write(result + "\n")
         finally:
             flogging.close()
         pass
 
     def resultOK(self, caseNo):
-        self.writeResult(caseNo+": OK")
+        self.writeResult(caseNo + ": OK")
 
     def resultNG(self, caseNo, reason):
-        self.writeResult(caseNo+": NG--" + reason)
+        self.writeResult(caseNo + ": NG--" + reason)
 
-    def checkPointOK(self, driver,caseName, checkPoint):
+    def checkPointOK(self, driver, caseName, checkPoint):
         """write the case's checkPoint(OK)
         :param driver:
         :param caseName:
@@ -81,12 +82,12 @@ class Log:
         """
         self.checkNo += 1
 
-        self.logger.info("[CheckPoint_"+str(self.checkNo)+"]: "+checkPoint+": OK")
+        self.logger.info("[CheckPoint_" + str(self.checkNo) + "]: " + checkPoint + ": OK")
 
         # take shot
         self.screenshotOK(driver, caseName)
 
-    def checkPointNG(self, driver,caseName, checkPoint):
+    def checkPointNG(self, driver, caseName, checkPoint):
         """write the case's checkPoint(NG)
         :param driver:
         :param caseName:
@@ -95,7 +96,7 @@ class Log:
         """
         self.checkNo += 1
 
-        self.logger.info("[CheckPoint_"+str(self.checkNo)+"]: "+checkPoint+": NG")
+        self.logger.info("[CheckPoint_" + str(self.checkNo) + "]: " + checkPoint + ": NG")
 
         # take shot
         self.screenshotNG(driver, caseName)
@@ -107,12 +108,12 @@ class Log:
         :return:
         """
         screenshotPath = os.path.join(logPath, caseName)
-        screenshotName = "CheckPoint_"+str(self.checkNo)+"_OK.png"
+        screenshotName = "CheckPoint_" + str(self.checkNo) + "_OK.png"
 
         # wait for animations to complete before taking screenshot
         sleep(1)
         # driver.get_screenshot_as_file(os.path.join(screenshotPath, screenshotName))
-        driver.get_screenshot_as_file(os.path.join(screenshotPath+screenshotName))
+        driver.get_screenshot_as_file(os.path.join(screenshotPath + screenshotName))
 
     def screenshotNG(self, driver, caseName):
         """screen shot
@@ -121,11 +122,11 @@ class Log:
         :return:
         """
         screenshotPath = os.path.join(logPath, caseName)
-        screenshotName = "CheckPoint_"+str(self.checkNo)+"_NG.png"
+        screenshotName = "CheckPoint_" + str(self.checkNo) + "_NG.png"
 
         # wait for animations to complete before taking screenshot
         sleep(1)
-        driver.get_screenshot_as_file(os.path.join(screenshotPath+screenshotName))
+        driver.get_screenshot_as_file(os.path.join(screenshotPath + screenshotName))
 
     def screenshotERROR(self, driver, caseName):
         """screen shot
@@ -154,9 +155,7 @@ class myLog:
 
     @staticmethod
     def getLog():
-
         if myLog.log == None:
-
             myLog.mutex.acquire()
             myLog.log = Log()
             myLog.mutex.release()
@@ -168,8 +167,3 @@ class myLog:
 #     logger = logTest.getMyLogger()
 #     logger.debug("1111")
 #     logTest.buildStartLine("test")
-
-
-
-
-

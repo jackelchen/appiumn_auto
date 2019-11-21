@@ -1,6 +1,7 @@
 __author__ = 'shikun'
 import unittest
 import os
+
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
@@ -15,8 +16,11 @@ class testLogin(te):
     #     super(testHome, self).__init__(methodName)
     def setUp(self):
         super(testLogin, self).setUp()
-        self.bc = b_app_case.GetAppCase(test_module="我的", GetAppCaseInfo=m_app_case.GetAppCaseInfo, GetAppCase=m_app_case.GetAppCase, fps=[], cpu=[], men=[],
-                                        driver=self.driver, package=self.get_apk_pkg(), devices=self.l_devices["deviceName"])
+        self.bc = b_app_case.GetAppCase(test_module="我的", GetAppCaseInfo=m_app_case.GetAppCaseInfo,
+                                        GetAppCase=m_app_case.GetAppCase, fps=[], cpu=[], men=[],
+                                        driver=self.driver, package=self.get_apk_pkg(),
+                                        devices=self.l_devices["deviceName"])
+
     def home_feed(self):
         self.bc.execCase(PATH("yaml/myinfo/home_feed.yaml"), test_name="test_home_feed", isLast="1")
 
@@ -36,11 +40,12 @@ class testLogin(te):
         self.driver.close_app()
         self.driver.quit()
         pass
+
     @staticmethod
     def tearDownClass():
         pass
+
     def test_home(self):
         # self.home_fist_open()
         self.home_login()
         self.home_feed()
-

@@ -10,10 +10,8 @@ from testBLL import phoneBase
 def getYam(homeyaml):
     try:
         with open(homeyaml, encoding='utf-8') as f:
-            x = yaml.load(f)
+            x = yaml.load(f, Loader=yaml.FullLoader)
             print(x)
             return x
     except FileNotFoundError:
         print(u"找不到文件")
-
-
